@@ -1,0 +1,62 @@
+        <div class="page-head"> 
+            <div class="container">
+                <div class="row">
+                    <div class="page-head-content">
+                        <h1 class="page-title">new account / signup </h1>               
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End page header -->
+ 
+
+        <!-- register-area -->
+        <div class="register-area" style="background-color: rgb(249, 249, 249);">
+            <div class="container">
+                <div class="col-sm-6 col-sm-offset-4 col-md-4 col-md-offset-4">
+                    <div class="box-for overflow thumbnail" style = "box-shadow: 0 0 7px black; margin-top: 20px;">                         
+                        <div class="col-md-12 col-xs-12 login-blocks">
+						 {{#if hasErrors}}
+			                     <div class = "alert alert-danger" alert-dismissable style = "border-radius:4px;"> 
+				        {{#each messages}}
+					             <p><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
+				                 <i class= "lnr lnr-warning"></i> {{this}}.</p>
+					    {{/each}}
+				                 </div> 
+			            {{/if}} 
+			
+			{{#if unmatchedPasswords}}
+				<div class = "alert alert-danger" alert-dismissable style = "border-radius:4px;"> 
+					<p><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
+					<i class= "lnr lnr-warning"></i> Passwords do <strong>NOT</strong> match!</p>
+				</div>
+			{{/if}}
+						
+                            <form action="" method="post" style = "margin-top: 10px;">
+							    
+								<label for="property-images">Email</label>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" name = "username" id="propertyname" placeholder = "Your email">
+                                </div>
+								
+								<label for="property-images">password</label>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" name = "password" id="password" placeholder = "password">
+                                </div>
+							
+							    <label for="property-images">Re-enter password</label>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" name = "passwordTwo" id="password" placeholder = "Enter password again">
+                                </div>
+								
+							     <input type = "hidden" name = "_csrf" value = "{{csrfToken}}">
+                                 <div class="text-center">
+                                    <button type="submit" class="btn btn-default"> Submit</button>
+                                </div>
+                            </form>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  

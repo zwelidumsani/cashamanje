@@ -1,0 +1,180 @@
+ <!-- Page Header Start -->
+    <div class="page-header" style="background: url(assets/img/2.jpg);">
+      <div class="container">
+        <div class="row">         
+          <div class="col-md-12">
+            <div class="breadcrumb-wrapper">
+              <h2 class="page-title">{{headin}}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page Header End -->
+	
+	
+	
+	
+	<ul id = "myTab" class = "nav nav-tabs navigation">
+     <li><a href = "/"><i class = "lnr lnr-home"></i> Home</a></li>
+	 <li><a href = "#"> About Us</a></li>
+	 <li><a href = "/treatment"><i class = "lnr lnr-list"></i> Herbal Nutrition</a></li>
+    <li><a href = "/relations"><i class = "lnr lnr-list"></i> Love & Relations</a></li>
+	<li><a href = "/wealth"><i class = "lnr lnr-list"></i> Wealth & Success</a></li>
+	<li><a href = "/dashboard"><i class = "lnr lnr-user"></i> Dashboard</a></li>
+	<li><a href = "/contact"><i class = "lnr lnr-envelope"></i> Contact Us</a></li>
+	<li><a href = "/signup"><i class = "lnr lnr-user"></i> Create Account</a></li>
+	
+    </ul>
+	
+	<ul id = "myTab" class = "nav nav-tabs descNavigation">
+    <li><a href = "/shopping-cart"><i class = "lnr lnr-cart"></i> Your Cart <span class = "badge">{{session.cart.totalQty}}</span></a></li>
+	
+    </ul>
+	
+	<!-- Content section Start --> 
+    <section id="content"  style="background: #E6E6FA">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+			<div class="page-login-form thumbnail" style= "padding:15px;">
+			<br>
+		
+			
+			
+			{{#if affErr}}
+			   <div class = "alert alert-danger text-center">
+			      <strong>{{affErr}}</strong>
+			    </div>
+			{{/if}}	
+			
+			{{#if NoErr}}
+			
+			     {{#if orderSuccess}}
+			    <div class = "alert alert-success text-center" alert-dismissable style = "border-radius:4px;">
+				<p><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
+			      <strong>{{orderSuccess}}</strong></p>
+			    </div>
+				<div class = "modal fade" id= "myModal" tabindex = "-1" role = "dialog" aria-labelledby= "myModalLabel" aria-hidden = "true">
+                    <div class= "modal-dialog">
+	                     <div class="modal-content">
+		                     <div class = "modal-header">
+			                     <button type= "button" class = "close" data-dismiss = "modal" aria-hidden = "true">X</button>
+				                 <h3 style = "color:#D3D3D3" id = "myModalLabel">Thank you for your support</h3>
+			                </div>
+			                <div class ="modal-body">
+
+				             <blockquote>
+				                 <p style = "color:#D3D3D3"> Your order is being prepared for you. You will be contacted about delivery arrangements.
+								 For order inquiries call/whatsApp: <i class = "fa fa-whatsapp"></i>+268 78609944.
+								                              
+				                 <small>Store Manager<cite title="Source Title"> Marco De'Sousa</small></p>
+				             <blockquote>
+
+			            </div>
+                        <div class = "modal-footer">
+						<div class = "col-md-12 col-lg-12 col-sm-12">
+				             <a class="btn btn-common btn-go-to-store center-block" href="/dashboard" style = "margin-bottom:20px;"><i class = "lnr lnr-list"></i> View Orders</a>
+			            </div>
+						
+						<div class = "col-md-12 col-lg-12 col-sm-12">
+				             <a class="btn btn-common btn-go-to-store center-block" href="/"><i class = "lnr lnr-home"></i> Back Home</a>
+			            </div>
+						</div>
+		            </div>
+	            </div>
+            </div>
+			     {{else}}
+					 <div class = "alert alert-success totalSize"style = "border-radius:4px;">
+						<strong>Total: SZL {{total}}</strong>
+					 </div>  
+			     {{/if}}
+			{{/if}}
+			
+			{{#if err}}
+			    <div class = "alert alert-danger">
+			      <strong>{{err}}</strong>
+			    </div>
+			 {{/if}}
+			 
+			 <div id = "charge-error" class = "alert alert-danger {{#if noError}} hidden{{/if}}">
+			 
+				         <i class= "lnr lnr-warning"></i> {{this}}.
+
+			    {{errMsg}}
+				</p>
+			 </div>
+			 <hr>
+			 <form action = "/order" role="form" class="login-form" method = "post">
+			  
+                <div class="form-group">
+                  <div class="input-icon">
+                    <i class="lnr lnr-user"></i>
+                    <input type ="text" id="sender-email" class="form-control" name="name" placeholder="Your Name" required>
+                  </div>
+                </div> 
+				
+				 <div class="form-group">
+                  <div class="input-icon">
+                    <i class="lnr lnr-smartphone"></i>
+                    <input type ="text" class="form-control" placeholder="Phone Number" name = "phone"  id = "phon" required>
+                  </div>
+                </div>
+			
+                <div class="form-group">
+                  <div class="input-icon">
+                    <i class="lnr lnr-map"></i>
+                    <input type="text" id="email" class="form-control" placeholder="Your Postal Address" name = "address" required>
+                  </div>
+                </div> 
+				
+				  <div class="form-group">
+                  <div class="input-icon">
+                    <i class="lnr lnr-map-marker"></i>
+                    <input type="text" id="email" class="form-control" placeholder="Your Country" name = "country" required>
+                  </div>
+                 </div> 
+                
+				<!--
+				<div class="form-group">
+                  <div class="input-icon">
+                    <i class="lnr lnr-tag"></i>
+                    <input type="text" class="form-control" placeholder="AFF-ID" name = "aff"  id = "affiliate" data-toggle = "tooltip" title = "Put in the AFF-ID of the person who invited you to buy in our store.
+                        If you don't have it, you can leave this field blank and click 'Order Now'" data-placement = "top">
+                  </div>
+                </div> 
+				-->
+                <br>
+				<input type = "hidden" name = "_csrf" value = "{{csrfToken}}">
+                <button class="btn btn-common log-btn">Order Now</button>
+              </form>
+			 
+			 
+			  </div>
+            </div>
+          </div>
+        </div>
+    </section>
+    <!-- Content section End --> 
+	
+	<ul id = "myTab" class = "nav nav-tabs navigation">
+    <li><a href = "/shopping-cart"><i class = "lnr lnr-cart"></i> Your Cart <span class = "badge">{{session.cart.totalQty}}</span></a></li>
+	
+    </ul>
+	
+	
+	<ul id = "myTab" class = "nav nav-tabs descNavigation">
+     <li><a href = "/"><i class = "lnr lnr-home"></i> Home</a></li>
+	 <li><a href = "/treatment"><i class = "lnr lnr-list"></i> Herbal Nutrition</a></li>
+    <li><a href = "/relations"><i class = "lnr lnr-list"></i> Love & Relations</a></li>
+	<li><a href = "/wealth"><i class = "lnr lnr-list"></i> Wealth & Success</a></li>
+	<li><a href = "/dashboard"><i class = "lnr lnr-user"></i> Dashboard</a></li>
+	<li><a href = "/contact"><i class = "lnr lnr-envelope"></i> Contact Us</a></li>
+	<li><a href = "/signup"><i class = "lnr lnr-user"></i> Create Account</a></li>
+    <li><a href = "/shopping-cart"><i class = "lnr lnr-cart"></i> Your Cart <span class = "badge">{{session.cart.totalQty}}</span></a></li>
+	
+    </ul>
+	
+
+
+	

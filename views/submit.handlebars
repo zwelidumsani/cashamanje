@@ -1,0 +1,108 @@
+        <div class="page-head"> 
+            <div class="container">
+                <div class="row">
+                    <div class="page-head-content">
+                        <h1 class="page-title">submit property </h1>               
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End page header -->
+
+        <!-- register-area -->
+        <div class="register-area" style="background-color: rgb(249, 249, 249);">
+            <div class="container">
+                <div class="col-sm-6 col-sm-offset-4 col-md-4 col-md-offset-4">
+                    <div class="box-for overflow thumbnail" style = "box-shadow: 0 0 7px black; margin-top: 20px;">                         
+                        <div class="col-md-12 col-xs-12 login-blocks">
+						
+						 {{#if propertySaved}} 
+					 <div class = "alert alert-success" alert-dismissable style = "border-radius:4px;>
+					     <p class= "pull-right"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
+					     <i class = "lnr lnr-checkmark-circle"></i>  Property saved successfully.</p>
+					 </div>	
+			     {{/if}}
+			   
+				 {{#if errorSavingProperty}} 
+				     <div class = "alert alert-danger" alert-dismissable style = "border-radius:4px;>
+						 <p class= "pull-right"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
+						 <i class = "lnr lnr-cross-circle"></i>  Error saving property!</p>
+					 </div>	
+				 {{/if}}
+				 
+				  {{#if ErrorSavingPropertyImage}} 
+				     <div class = "alert alert-danger" alert-dismissable style = "border-radius:4px;>
+						 <p class= "pull-right"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
+						 <i class = "lnr lnr-cross-circle"></i>  Error saving property image</p>
+					 </div>	
+				 {{/if}}
+						
+						
+                            <form action="/submit?_csrf={{csrfToken}}" method="post" role="form" enctype = "multipart/form-data">
+							    
+								<label for="property-images ">Property name</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name = "propertyName" id="propertyname" placeholder = "Property name" required>
+                                </div>
+								
+								<label for="property-images ">Property Structure</label>
+                                <div class="form-group">
+                                     <select id="lunchBegins" class="form-control" data-live-search="false" name = "propertyStructure" title="Property structure" required>
+
+                                        <option>1 rooms</option>
+                                        <option>Bed seaters</option>
+                                        <option>1 bedrooms</option>
+                                        <option>2 bedrooms</option>
+                                     </select>
+                                </div>
+								
+								<label for="property-images ">Price</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name = "price" id="propertyname" placeholder = "Property price" required>
+                                </div>
+								
+								
+								<label for="property-images ">Region</label>
+                                <div class="form-group">
+                                     <select id="lunchBegins" class="form-control" data-live-search="false" name = "region" title="Region" required>
+                                        <option>Hhohho</option>
+										 <option>Manzini</option>
+										  <option>Shiselweni</option>
+										   <option>Lubombo</option>
+                                     </select>
+                                </div>
+								
+								<label for="property-images">City name</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name = "cityName" id="password" placeholder = "City name" required>
+                                </div>
+								
+								<label for="property-images">Community name</label>
+								<div class="form-group">
+                                    <input type="text" class="form-control" name = "communityName" id="password" placeholder = "Community name" required>
+                                </div>
+								
+								<label for="property-images">Landlord's Cell #</label>
+								<div class="form-group">
+                                    <input type="text" class="form-control" name = "landlordCell" id="password" placeholder = "Landlod's cell cell #" required>
+                                </div>
+								
+								<label for="property-images">Available rooms</label>
+								<div class="form-group">
+                                    <input type="number" class="form-control" name = "availableRooms" password" placeholder = "Available rooms" required>
+                                </div>
+								<div class="form-group">
+                                    <label for="property-images">Chose Image</label>
+                                        <input class="form-control" type="file" id="property-images" name = "image">
+                                </div>
+								
+                                 <div class="text-center">
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                </div>
+                            </form>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
