@@ -14,6 +14,9 @@ var passport = require('passport');
 var clientOrder = {};
 var proId;
 var propertyId;
+var searchedProperties = [];
+
+
 
 const accountSid = 'AC3c506767f08d7269912cf174bce0b68d'; 
 const authToken = '896a17370c28d4a7c7472ea01d119b6f'; 
@@ -64,7 +67,8 @@ router.post('/submit', isLoggedIn, function(req, res){
 					 region: req.body.region,
 					 availableRooms: req.body.availableRooms,
 					 propertyImagePath: req.file.path.slice(7.0),
-					 status: "Pending...",
+					 status: "label-danger",
+					 publication:"Publish",
 					 createdAt: localTime.toLocaleString()
 	            });
 				
@@ -81,18 +85,22 @@ router.post('/submit', isLoggedIn, function(req, res){
 		 });	   	
 });
 
-
+    
 
 router.get('/', (req, res) => {
+	 var ifSearchedProperties;
+	
 	 propertyId = null;
-     var propertiesArray = []; 
-     Property.find({status: 'Approved'}, function(err, properties){	
+	 if (searchedProperties.length == 0){
+		  var propertiesArray = [];
+         Property.find({status: 'Approved'}, function(err, properties){	
 	     properties.forEach(function(property){
 			 var propertyObject = {
 				 propertyId: property._id,
 				 propertyName:property.propertyName,
 				 cityName: property.cityName,
 				 price:property.price,
+				 town: property.communityName,
 				 propertyStructure: property.propertyStructure,
 				 availableRooms: property.availableRooms,
 				 propertyImagePath: property.propertyImagePath,
@@ -101,10 +109,63 @@ router.get('/', (req, res) => {
 			propertiesArray.push(propertyObject);			
 		 });
 		 
-		 res.render('index', {properties: propertiesArray});
-	});	
+		     return res.render('index', {properties: propertiesArray, csrfToken: req.csrfToken()});
+	     });	
+		 
+	 }else { 
+	 	     var propertiesArray = [];
+		     Property.find({status: 'Approved'}, function(err, properties){	
+	             properties.forEach(function(property){
+			     var propertyObject = {
+				 propertyId: property._id,
+				 propertyName:property.propertyName,
+				 cityName: property.cityName,
+				 price:property.price,
+				 town: property.communityName,
+				 propertyStructure: property.propertyStructure,
+				 availableRooms: property.availableRooms,
+				 propertyImagePath: property.propertyImagePath,
+				 communityName:property.communityName
+			}
+			 propertiesArray.push(propertyObject);			
+		 });
+	         console.log("Do you go here??");
+			  var ifSearchedProperties = 1;
+			  var anotherArray = Array.from(searchedProperties);
+			  searchedProperties = [];
+		      return res.render('index', {csrfToken: req.csrfToken(), properties: propertiesArray, yourProperties: anotherArray, ifSearchedProperties:ifSearchedProperties});
+		})
+	 }
 });
 
+
+router.post('/search-properties', (req, res) => {
+	if(req.body.region == "" || req.body.cityname == "" || req.body.communityname == ""){
+		return res.redirect("/");
+	}
+	     Property.find({region: req.body.region, cityName: req.body.cityname, communityName: req.body.communityname}, function(err, properties){
+		     if (err){
+				 console.log("Could not find searched properties: "+ err.message);
+			 }else {
+				 properties.forEach(function(property){
+			     var propertyObject = {
+				 propertyId: property._id,
+				 propertyName:property.propertyName,
+				 cityName: property.cityName,
+				 price:property.price,
+				 town: property.communityName,
+				 propertyStructure: property.propertyStructure,
+				 availableRooms: property.availableRooms,
+				 propertyImagePath: property.propertyImagePath,
+				 communityName:property.communityName
+			    }
+			      searchedProperties.push(propertyObject);			
+		         });
+		          console.log("Are you running??")
+		          return res.redirect('/');
+			}
+	  });	
+});
 
 
 router.get('/logout', isLoggedIn, function(req, res, next){
@@ -121,6 +182,7 @@ router.get('/get-property-id/:id', function(req, res, next){
 });
 
 
+
 router.get('/create-ticket', function(req, res, next){
 	var ticketSaved;
 	var errorSavingTicket;
@@ -129,6 +191,7 @@ router.get('/create-ticket', function(req, res, next){
 	ticketSaved = req.flash("ticketSaved")[0];
 	res.render('ticket', {csrfToken: req.csrfToken(),errorSavingTicket: errorSavingTicket, ticketSaved: ticketSaved});	
 });
+
 
 
 router.post('/ticket', function(req, res, next){
@@ -159,10 +222,10 @@ router.post('/ticket', function(req, res, next){
 						 propertyId = null;
 						 req.flash('ticketSaved', 'Ticket saved successfully.');
 						 res.redirect('/create-ticket'); 
-					}
-			     });
-		}
-	});	
+				    }
+	         });
+		 }
+	 });	
 });
 
 
@@ -171,6 +234,7 @@ router.get('/get-id/:id', (req, res) => {
      proId = req.params.id;
      res.redirect('/property-details');	
 });
+
 
 router.get('/property-details', (req, res) => {
 	propertyId = null;
@@ -187,34 +251,21 @@ router.get('/property-details', (req, res) => {
 
 
 
-
-
-router.get('/dashboard',function(req, res, next){
+router.get('/dashboard', isLoggedIn, function(req, res, next){
 	propertyId = null;
-	var userid;
-	var orderDeleted;
-	if(req.user.email == '78127625' || req.user.email == '76317345' || req.user.email == '76791635' ){
-    Order.find(function(err, orders){		
-	if (err){
-		return res.write('Error');
-		}
-	var cart; 
-	var totalProducts = 0;
-	orders.forEach(function(order){
-	cart = new Cart(order.cart);
 	
-	order.items = cart.generateArray();
-	totalProducts = totalProducts + order.cart.totalQty;
-	});
- 	
-	orderDeleted = req.flash('order_success_delete')[0];
-	orderNotClosed = req.flash('error-removing-order')[0];
-	res.render('dashboard', {orderNotClosed: orderNotClosed, orderD: orderDeleted, idd: userid,admin:"ADMIN", idd: !userid, id:req.user._id, email:req.user.email, orderss: orders, orders: orders, totalOrders: !orders.length, totalOrders: orders.length, totalProducts:  totalProducts,  headin: "ACCOUNT AND ORDERS"});
-    });
-}
-	 else {
+	if(req.user.email == 'zwelidumsani@gmail.com' ){
+		
+		Property.find(function(err, properties){		
+			if (err){
+					 return res.write('Error: '+ "Could not find properties");
+			}
+			
+				 res.render('dashboard',{properties: properties, admin:"ADMIN"});
+			});
 	
 	
+    }else {
     Order.find({user: req.user}, function(err, orders){	
 	userid = 'Admin@admin.admin';
 	if (err){

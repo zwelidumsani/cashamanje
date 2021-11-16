@@ -16,41 +16,39 @@
                        <div class="row">
                     <div class="">
 					   <div class="search-form wow pulse" data-wow-delay="0.8s">
-                            <form action="" class=" form-inline">
+                            <form action="/search-properties" method = "post" class=" form-inline">
                              
                                 <div class="form-group">                                   
-                                    <select id="lunchBegins" class="selectpicker" data-live-search="false" title="Select region">
+                                    <select id="lunchBegins" class="selectpicker" data-live-search="false" name = "region" title="Select region">
                                         <option>Hhohho</option>
                                         <option>Manzini</option>
                                         <option>Shiselweni </option>
-                                        <option>lubombo</option>
+                                        <option>Lubombo</option>
                                     </select>
                                 </div>
 								
 								 <div class="form-group">                                   
-                                    <select id="lunchBegins" class="selectpicker" data-live-search="false" title="Select city">
-
-                                        <option>New yor</option>
-                                        <option>Paris</option>
-                                        <option>Casablanca</option>
-                                        <option>Tokyo</option>
-                                        <option>Marraekch</option>
-                                        <option>kyoto , shibua</option>
+                                    <select id="lunchBegins" class="selectpicker" name = "cityname" data-live-search="false" title="Select city">
+                                 
+									 if{{#each properties}}
+                                       <option>{{this.cityName}}</option>
+									 {{/each}} 
+									
+									 
+                                      
                                     </select>
                                 </div>
 								
 										 <div class="form-group">                                   
-                                    <select id="lunchBegins" class="selectpicker" data-live-search="false" title="Select area">
+                                    <select id="lunchBegins" class="selectpicker" name = "communityname" data-live-search="false" title="Select area">
 
-                                        <option>New york, CA0/option>
-                                        <option>Paris</option>
-                                        <option>Casablanca</option>
-                                        <option>Tokyo</option>
-                                        <option>Marraekch</option>
-                                        <option>kyoto , shibua</option>
+                                         {{#each properties}}
+                                             <option>{{this.town}}</option>
+									    {{/each}}
+                                    
                                     </select>
                                 </div>
-								
+								<input type = "hidden" name = "_csrf" value = "{{csrfToken}}">
                                <input class="button btn largesearch-btn" value="Search" type="submit">
                             </form>
                         </div>
@@ -75,6 +73,21 @@
                 </div>
 
                 <div class="row">
+				{{#if ifSearchedProperties}}
+				     {{#each yourProperties}}
+                         <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12">
+                                <a href="/get-id/{{this.propertyId}}" ><img src="{{this.propertyImagePath}}"></a>
+                                <div class="item-entry overflow"> 
+                                    <h5><a href="property-1.html" >{{this.propertyStructure}}<span class = "pull-right">Available <span class="badge badge-secondary">{{this.availableRooms}}</span></span></a></h5>
+									<a href = "/get-property-id/{{this.propertyId}}" type="button" class="btn btn-primary pull-right">Take It!</a>
+                                    <div class="dot-hr"></div>
+                                    <span class="pull-left"><b>Area :</b> {{this.communityName}} </span>
+                                    <span class="proerty-price pull-right">E {{this.price}}</span>
+                                </div>
+                         </div>
+					{{/each}}	
+				{{else}}
+				
 					{{#each properties}}
                          <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12">
                                 <a href="/get-id/{{this.propertyId}}" ><img src="{{this.propertyImagePath}}"></a>
@@ -87,6 +100,7 @@
                                 </div>
                          </div>
 					{{/each}}	
+				 {{/if}}	
                  </div>
                 </div>
             </div>
@@ -156,58 +170,62 @@
                 </div>
             </div>
         </div>
-
-        <!--TESTIMONIALS -->
-        <div class="testimonial-area recent-property" style="background-color: #FCFCFC; padding-bottom: 15px;">
+  <!-- Count area -->
+        <div class="count-area">
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1 col-sm-12 text-center page-title">
                         <!-- /.feature title -->
-                        <h2>Our Customers Said  </h2> 
+                        <h2>You can trust Us </h2> 
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="row testimonial">
-                        <div class="col-md-12">
-                            <div id="testimonial-slider">
-							
-                                <div class="item">
-                                    <div class="client-text">                                
-                                        <p>Nulla quis dapibus nisl. Suspendisse llam sed arcu ultried arcu ultricies !</p>
-                                        <h4><strong>Ohidul Islam, </strong><i>Web Designer</i></h4>
+                    <div class="col-md-12 col-xs-12 percent-blocks m-main" data-waypoint-scroll="true">
+                        <div class="row">
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="count-item">
+                                    <div class="count-item-circle">
+                                        <span class="pe-7s-users"></span>
                                     </div>
-                                    <div class="client-face wow fadeInRight" data-wow-delay=".9s"> 
-                                        <img src="assets/img/client-face1.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="client-text">                                
-                                        <p>Nulla quis dapibus nisl. Suspendisse llam sed arcu ultried arcu ultricies !</p>
-                                        <h4><strong>Ohidul Islam, </strong><i>Web Designer</i></h4>
-                                    </div>
-                                    <div class="client-face">
-                                        <img src="assets/img/client-face2.png" alt="">
+                                    <div class="chart" data-percent="5000">
+                                        <h2 class="percent" id="counter">0</h2>
+                                        <h5>HAPPY CUSTOMER </h5>
                                     </div>
                                 </div>
-                                <div class="item">
-                                    <div class="client-text">                                
-                                        <p>Nulla quis dapibus nisl. Suspendisse llam sed arcu ultried arcu ultricies !</p>
-                                        <h4><strong>Ohidul Islam, </strong><i>Web Designer</i></h4>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="count-item">
+                                    <div class="count-item-circle">
+                                        <span class="pe-7s-home"></span>
                                     </div>
-                                    <div class="client-face">
-                                        <img src="assets/img/client-face1.png" alt="">
+                                    <div class="chart" data-percent="12000">
+                                        <h2 class="percent" id="counter1">0</h2>
+                                        <h5>Properties in stock</h5>
                                     </div>
-                                </div>
-                                <div class="item">
-                                    <div class="client-text">                                
-                                        <p>Nulla quis dapibus nisl. Suspendisse llam sed arcu ultried arcu ultricies !</p>
-                                        <h4><strong>Ohidul Islam, </strong><i>Web Designer</i></h4>
+                                </div> 
+                            </div> 
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="count-item">
+                                    <div class="count-item-circle">
+                                        <span class="pe-7s-flag"></span>
                                     </div>
-                                    <div class="client-face">
-                                        <img src="assets/img/client-face2.png" alt="">
+                                    <div class="chart" data-percent="120">
+                                        <h2 class="percent" id="counter2">0</h2>
+                                        <h5>City registered </h5>
                                     </div>
-                                </div>
+                                </div> 
+                            </div> 
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="count-item">
+                                    <div class="count-item-circle">
+                                        <span class="pe-7s-graph2"></span>
+                                    </div>
+                                    <div class="chart" data-percent="5000">
+                                        <h2 class="percent"  id="counter3">5000</h2>
+                                        <h5>DEALER BRANCHES</h5>
+                                    </div>
+                                </div> 
+
                             </div>
                         </div>
                     </div>
@@ -215,7 +233,9 @@
             </div>
         </div>
 		
-		
+{{#if ifSearchedProperties}}
+
+{{else}}
 		<div class = "container">
 		    <div class = "row">
 			   <div class="row">
@@ -244,6 +264,6 @@
                         </div>	
 		     </div>
           </div>
-		
+	{{/if}}	
 		
 		

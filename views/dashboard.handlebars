@@ -1,304 +1,60 @@
-      <div class="page-head"> 
-            <div class="container">
-                <div class="row">
-                    <div class="page-head-content">
-                        <h1 class="page-title">My Acount</h1>               
-                    </div>
-                </div>
+ <div class="page-head"> 
+     <div class="container">
+         <div class="row">
+            <div class="page-head-content">
+                 <h1 class="page-title">My Acount</h1>               
             </div>
         </div>
+     </div>
+</div>    
 
 
-<div style="background: #E6E6FA">
+
 <div class="container">
-    <div class = "row">
+     <div class = "row">
 	<!--dashboard start-->
-	    <div class = "col-md-3 col-sm-12">
-		<br>
-		      <div class = "thumbnail text-center">
-			  <br>
-			  <span class= "text-left label label-success">Mode:{{admin}}</span>
-			  <br>
+		<div class = "col-md-3 col-sm-12">
 			<br>
-			
-			    <img src = "assets/img/user.png" alt = "" class = "img-circle" style= "width: 130px; height: auto; border: 5px solid #F4F7F9; margin-bottom:6px;">
-			    <div class = "caption">
-			        <h4 class= "text-center" style= "font-weight:600; margin-bottom:40px;"><small><span class="badge" data-toggle = "tooltip" title = "Your ID"><p><i class = "lnr lnr-tag"></i>Cell-Number</p>{{email}}</span></h4>
-					     
-                <a class="btn btn-common btn-go-to-store center-block" href="/"><span class="lnr lnr-home"></span> Go Home</a>
-                <hr>    
-			</div>
-			</div>
-			
-			<hr>
-	       
-			<div class = "list-group" style = "box-shadow: 0 0 7px 2px black; border-radius:10px;">
-                    <a  class ="list-group-item" style = "background-color:#44f134"> <h4 class = "list-group-item-heading text-center"><i class="lnr lnr-user"></i> My Orders</h4></a>
-                    <a  class = "list-group-item"><h6 class = "list-group-item-heading"><h4><i class="lnr lnr-cart"></i> Total Orders:  <span class="badge">{{totalOrders}}</span></h4></a>
-	                <a  class = "list-group-item"><h6 class = "list-group-item-heading"><h4><i class="lnr lnr-list"></i> Total Purchased Items: <span class="badge">{{totalProducts}}</span></h4></a>
-					<a  class = "list-group-item"><h6 class = "list-group-item-heading"><h4><i class="lnr lnr-smartphone"></i><cite title="Source Title"> {{email}}</cite></h4></a>
-				    <a  href = "/logout" class = "list-group-item"><h4 class = "list-group-item-heading"><i class="lnr lnr-cog"></i> Logout</h4></a>
-					<a  href = "/remove-account" class = "list-group-item" onClick = "return confirm('Are you sure you want to delete your account?');" data-toggle = "tooltip" title = "If you delete your account, all your orders will also be deleted!" data-placement = "bottom"><h4 class = "list-group-item-heading"><i class="lnr lnr-circle-minus"></i> Delete Account</h4></a>
-			
-		</div>	
+			<div class = "thumbnail text-center">
+				<br>
+				<span class= "text-left label label-success">Mode:{{admin}}</span>
+				<br>
+				<br>
+					
+				<img src = "assets/img/user.png" alt = "" class = "img-circle" style= "width: 130px; height: auto; border: 5px solid #F4F7F9; margin-bottom:6px;">
+				<ul class="list-group list-group-flush">
+				  <li class="list-group-item"><i class = "pe-7s-culture"><a href = "/List-properties"></i> Properties</li>
+				  <li class="list-group-item">A second item</li>
+				  <li class="list-group-item">A third item</li>
+				  <li class="list-group-item">A fourth item</li>
+				  <li class="list-group-item">And a fifth one</li>
+				</ul>
+			</div>	
 		</div>
 	
-		<div class = "col-md-9 col-sm-12 col-xm-12">
-		<br>
-		
-		{{# if totalOrders}}
-		
-		{{# if idd}}
-		
-		{{# if orderD}}
-		     <div class = "alert alert-success" alert-dismissable style = "border-radius:4px;"> 
-			     <p><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
-				 <i class= "lnr lnr-checkmark-circle"></i> An order has been <strong>Processed</strong>,<strong>Closed</strong> and <strong>Removed</strong> successfully.</strong></p>
-			 </div>
-		 {{/if}}
-		 
-		 {{# if orderNotClosed}}
-		     <div class = "alert alert-danger" alert-dismissable style = "border-radius:4px;"> 
-			     <p><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
-				 <i class= "lnr lnr-warning"></i> Cannot remove a <strong> pending... order</strong></p>
-			 </div>
-		 {{/if}}
-        		
-		{{#each orders}}
-			<div class = "thumbnail">
-		      <table class="table table-responsive product-dashboard-table table-hover" style= "background-color: white; margin-bottom:0px;">
-				   <thead class = "title" style= "background-color:#44f134">
-							<tr>
-								<th class = "pull-left">Product</th>
-								<th>Price</th>
-								<th class = "text-align: center">Qty</th>	
-							</tr>
-				  </thead>
-						
-						<tbody>
-						
-						 {{# each this.items}}
-						<tr>
-							<td class="product-thumb" style = "vertical-align: middle;">
-									<img width="80px" height="auto" src="{{this.item.imagePath}}" alt="Product image">
-							</td>
-								<td>
-								
-									<h3 class="title">{{this.item.title}}</h3>
-									<ul class = "inline">
-									     
-										
-									   <h3> <span class="label label-success">SZL{{this.item.price}}</span></h3>
+		 <div class = "col-md-9 col-sm-12 col-xm-12" style = "margin-top:28px;">
+		    {{#each properties}}
+			     <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12">
+                                <a href="/get-id/{{this.propertyId}}" ><img src="{{this.propertyImagePath}}"></a>
+                                <div class="item-entry overflow"> 
+                                    <h5><a href="property-1.html" >{{this.propertyStructure}}<span class = "pull-right"></span></a>
 									
-									</ul>
-								</td>
+									 <a href = "/get-property-id/{{this.propertyId}}" type="label" class="label {{this.status}} pull-right"><i class = "pe-7s-check"></i> {{this.publication}}</a>
 								
-								
-								<td class= "data-title="Action" style = "vertical-align: middle;">
-								<div class = "text-align: center">
-										<ul class = "in-line">
-									       <li class = "col-xm-12">
-													<h1><span class="pad label label-success">{{this.qty}}</span></h1>
-											</li>
-										</ul>
-									</div>	
-								</div>	
-								</td>
-								
-							</tr>
-							
-							{{/each}}
-							
-							<tr class = "success">
-							
-							<td class="product-thumb" style = "vertical-align: middle;">
-							
-							<h4 class = "title"><strong>TOTAL:SZL{{this.cart.totalPrice}}</strong></h4>
-	                                
-							</td>
-							
-							<td class="product-thumb" style = "vertical-align: middle; font-color:white;">
-							     <div class ="{{this.statusCss}}">{{this.status}}</div>
-								
-							</td>
-							
-							<td class="product-thumb text-center" style = "vertical-align: middle;">
-								<div class = "delete">
-										<a class = "label label-danger closeOrder"href = '/close-order/{{this._id}}'>
-										<i class="fa fa-trash"></i> ClOSE
-										</a>
-										
-										<a class = "label label-danger deleteOrder" href = '/remove-order/{{this._id}}'>
-										<i class="fa fa-trash"></i> DElTE
-										</a>
-								</div>
-							 
-							</td>
-							
-							</tr>
-						</tbody>
-					</table>
-					
-					<table class = "table table-condensed">
-								<tr> 
-								<th>Name: </th>
-								<td>{{this.name}}</td>
-								</tr>
-								
-								<tr> 
-								<th>Cell:</th>
-								<td>{{this.phone}}</td>
-								</tr>
-								
-								<tr>
-								<th>Address:</th>
-								<td>{{this.address}}</td>
-								</tr>
-								
-								
-								<tr>
-								<th>Country</th>
-								<td>{{this.country}}</td>
-								</tr>
-								
-								<tr>
-								<th>Date:</th>
-								<td>{{this.createdAt}}</td>
-								</tr>
-							</table>
-					</div>
-	          
-			  
-			  {{/each}}
-			  
-			  {{else}}
-			  {{#each orders}}
-			  	   
-					   <div class = "thumbnail">
-		      <table class="table table-responsive product-dashboard-table table-hover" style= "background-color: white;margin-bottom:0px;">
-				   <thead class = "title" style= "background-color:#44f134">
-							<tr>
-								<th class = "pull-left">Product</th>
-								<th>Price</th>
-								<th class = "text-align: center">Qty</th>
-								
-							</tr>
-						</thead>
-						
-						<tbody>
-						
-						 {{# each this.items}}
-						<tr>
-							<td class="product-thumb" style = "vertical-align: middle;">
-									<img width="80px" height="auto" src="{{this.item.imagePath}}" alt="Product image" >
-							</td>
-								<td>
-								
-									<h3 class="title">{{this.item.title}}</h3>
-									<ul>
-									   <h3> <span class="label label-success">SZL{{this.item.price}}</span></h3>
-									</ul>
-								</td>
-								
-								<td class="data-title="Action" style = "vertical-align: middle;">
-									<div class = "text-align: center">
-										<ul class="list-inline">
-									       
-											<li>
-												<h1><span class="label label-success">{{this.qty}}</span></h1>
-											</li>
-											
-										</ul>
-									</div>
+									 </h5>
 									
-								</td>
-							</tr>
-							
-							{{/each}}
-							
-							<tr class = "success">
-							
-							<td class="product-thumb" style = "vertical-align: middle;">
-							<h4 class = "title"><strong>Total: <span class = "label">SZL{{this.cart.totalPrice}}</span></strong></h4>   
-							</td>
-							
-							<td class="product-thumb" style = "vertical-align: middle; font-color:white;">
-							    <div class ="{{this.statusCss}}">{{this.status}}</div>
-							</td>
-							
-							<td class="product-thumb text-center" style = "vertical-align: middle;">
-							    
-							</td>
-							
-							</tr>
-						
-						</tbody>
-					</table>
-					
-					<table class = "table table-condensed">
-								<tr> 
-								<th>Name: </th>
-								<td>{{this.name}}</td>
-								</tr>
-								
-								<tr> 
-								<th>Cell:</th>
-								<td>{{this.phone}}</td>
-								</tr>
-								
-								<tr>
-								<th>Address:</th>
-								<td>{{this.address}}</td>
-								</tr>
-								
-								
-								<tr>
-								<th>Country</th>
-								<td>{{this.country}}</td>
-								</tr>
-								
-								<tr>
-								<th>Date:</th>
-								<td>{{this.createdAt}}</td>
-								</tr>
-							</table>
-					</div>
-	          
-			  {{/each}}
-			  
-			  {{/if}}
-			  
-			 
-			  {{else}}
-			  
-			    {{# if orderD}}
-		             <div class = "alert alert-danger" alert-dismissable style = "border-radius:4px;"> 
-			             <p><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
-				         <i class= "lnr lnr-checkmark-circle"></i> An order has been <strong>Processed</strong>,<strong>Closed</strong> and <strong>Removed</strong> successfully.</strong></p>
-			         </div>
-		        {{/if}}
-				
-				   <div class = "thumbnail">
-				   
-					   <div style =  "background: rgba(0, 0, 0, 0.3) repeat; line-height:490px;">
-					   
-							<div class = "text-align: center" style = "color: white;">
-								<h1 class = "text-align: center"><span style="font-weight: 550; font-size:20px;">You have No Orders</span></h1>
-								
-									<p>Thank you for creating an account with <strong>Herbal Nutrition</strong>. You can alway login, select your product and make an order.
-									Then come later and pick your order within the <strong>next 48hrs</strong>. </p>                                                                                                         
-							</div>
-						 
-					  </div>
-				   </div>
-			  	   
-             {{/if}}
-	</div>
-
-	</div>
-</div>        
+                                    <div class="dot-hr"></div>
+                                    <span class="pull-left"><b>Area :</b> {{this.communityName}} </span>
+                                    <span class="proerty-price pull-right">E {{this.price}}</span>
+									
+									
+                                </div>
+                 </div>	
+             {{/each}}				 
+		</div>
+     </div>        
 </div>	  
-</div>	 
+	 
 
 
 
