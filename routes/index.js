@@ -13,8 +13,12 @@ var User = require('../models/user')
 var passport = require('passport');
 var clientOrder = {};
 var proId;
+var id;
 var propertyId;
 var searchedProperties = [];
+var ticket;
+var ticketId;
+
 
 
 
@@ -67,8 +71,8 @@ router.post('/submit', isLoggedIn, function(req, res){
 					 region: req.body.region,
 					 availableRooms: req.body.availableRooms,
 					 propertyImagePath: req.file.path.slice(7.0),
-					 status: "label-danger",
-					 publication:"Publish",
+					 status: "Pending...",
+					 myClass: "label-danger",
 					 createdAt: localTime.toLocaleString()
 	            });
 				
@@ -153,6 +157,7 @@ router.post('/search-properties', (req, res) => {
 				 propertyName:property.propertyName,
 				 cityName: property.cityName,
 				 price:property.price,
+				 status:req.body.status,
 				 town: property.communityName,
 				 propertyStructure: property.propertyStructure,
 				 availableRooms: property.availableRooms,
@@ -211,6 +216,7 @@ router.post('/ticket', function(req, res, next){
 					 clientSurname: req.body.surname,
 					 clientCell: req.body.phonenumber,
 					 status: "Pending...",
+					 myClass:"label-danger",
 					 createdAt: localTime.toLocaleString()
 	             });
 					
@@ -229,13 +235,6 @@ router.post('/ticket', function(req, res, next){
 });
 
 
-
-router.get('/get-id/:id', (req, res) => {
-     proId = req.params.id;
-     res.redirect('/property-details');	
-});
-
-
 router.get('/property-details', (req, res) => {
 	propertyId = null;
 	Property.findById(proId, function(err, property){
@@ -250,21 +249,40 @@ router.get('/property-details', (req, res) => {
 });
 
 
+//DASHBOARD START =====================================================================================================
+
+router.get('/all-properties', isLoggedIn, function(req, res, next){
+	var proRemoval = req.flash("pro_removal")[0];
+	var user;
+	if(req.user.email == '78127625' ){
+		
+	    Property.find(function(err, properties){		
+			if (err){
+					 return res.write('Error: '+ "Could not find properties");
+			} else {
+				return res.render('dashboard', {layout: "dash.handlebars", admin: "ADMIN", properties:properties, proRemoval: proRemoval});
+			}
+		});
+	}else {
+		Property.find({user: req.user}, function(err, properties){
+			 if (err){
+					 return res.write('Error: '+ "Could not find properties");
+			} else {
+				user = 1;
+				return res.render('dashboard', {layout: "dash.handlebars",admin: "USER", properties:properties, user:user});
+			}
+		});	
+	}
+});
+
 
 router.get('/dashboard', isLoggedIn, function(req, res, next){
 	propertyId = null;
-	
-	if(req.user.email == 'zwelidumsani@gmail.com' ){
+	var home;
+	if(req.user.email == '78127625' ){
 		
-		Property.find(function(err, properties){		
-			if (err){
-					 return res.write('Error: '+ "Could not find properties");
-			}
-			
-				 res.render('dashboard',{properties: properties, admin:"ADMIN"});
-			});
-	
-	
+	     res.render('dashboard',{layout: "dash.handlebars"});
+		
     }else {
     Order.find({user: req.user}, function(err, orders){	
 	userid = 'Admin@admin.admin';
@@ -285,67 +303,192 @@ router.get('/dashboard', isLoggedIn, function(req, res, next){
 });
 
 
-router.get('/remove-account', isLoggedIn, function(req, res, next){ 
-	
-		 Order.deleteMany({user: req.user}, function(err){
-			 if(err){
-				 console.log("Could not delete Orders.");
-			 } else {
-				 User.findOneAndRemove({_id: req.user}, function(err,docs){
-					 if(err){
-						 console.log("Could not remove User!");
-					 }else {
-						 console.log("Account removed successfully.");
-						 req.flash('acc-removal', 'You have successfully Deleted your account.');
-						 res.redirect('/');
-					 }
-				 });
-			 }
-		 });
+router.get('/dashboard-get-property-id/:id', (req, res) => {
+     proId = req.params.id;
+     res.redirect('/dashboard-get-property');	
+});
+
+
+router.get('/dashboard-get-property', isLoggedIn, function(req, res, next){
+	var proUpdate = req.flash("pro_update")[0];
+     Property.findById(proId, function(err, property){
+		if(err){
+			console.log("Error finding property Info", err.message);
+		}
+		if(!property){
+			console.log("Property unavailable");
+			return res.redirect('/');
+		}else { 
+				User.findById(property.user._id, function(err, user){
+					if(err){
+						 console.log("User not found ",err.message);
+					}else {
+					   return res.render("property_info", {csrfToken: req.csrfToken(), layout: "dash.handlebars", property: property, user:user,
+					   proUpdate: proUpdate});
+				}
+			})
+		}
+	});	
 });
 
 
 
-router.get('/remove-order/:id', isLoggedIn, function(req, res, next){
-	var orderId = req.params.id;
-	console.log(orderId);
-	Order.findById(orderId, function(err, order){
-		if(err){
-			console.log("Could not find Order", err.message);
-		}else {
-			if(order.status == "Closed"){
+
+//UPDATE------------------------------------------------
+router.post('/property-update', isLoggedIn, function(req, res, next){
+	 Property.findByIdAndUpdate(proId, {
+		 price: req.body.price,
+		 propertyName: req.body.propertyname,
+		 propertyStructure: req.body.propertystructure,
+		 cityName: req.body.cityname,
+		 communityName: req.body.communityname,
+		 region: req.body.region,
+		 status: req.body.status,
+		 myClass: req.body.myclass,
+		 landLordCell: req.body.landloardcell,
+		 availableRooms: req.body.availablerooms
+		
+		}, function(err, docs) {
+			 
+		if (err){
+			console.log("Error updating: ", err)
+		}
+		else{
+			console.log("Property Updated:");
+			req.flash("pro_update", "Property updated");
+			res.redirect('/dashboard-get-property');
+		}
+    });
+});
+
+/*if(order.status == "Closed"){
 				 Order.findOneAndRemove()
 	             .then(data => {
 		         req.flash('order_success_delete', 'An order has been processed and removed');
 		         return res.redirect('/dashboard');
 	           })
-	             .catch(err => {
-		             return res.json({
-			         confirmation: 'fail',
-			         message:err.message
-		            });
-	            })
-			}else {
-				 req.flash('error-removing-order', 'Order Error');
-				 return res.redirect("/dashboard");
+
+*/
+//END DASHBOARD ===========================================================================================================================
+router.get('/remove-property', isLoggedIn, function(req, res, next){ 
+				 Property.remove({_id: proId}, function(err, docs){
+					 if(err){
+						 console.log("Could not remove property! ",err.message);
+					 }else {
+						 console.log("Property removed successfully.");
+						 req.flash('pro_removal', 'Property removed successfully.');
+						 res.redirect('/all-properties');
+					 }
+			});
+});
+
+
+router.get('/ticket-id/:id', (req, res) => {
+     ticketId = req.params.id;
+     res.redirect('/view-ticket');	
+});
+
+router.get('/all-tickets', isLoggedIn, function(req, res, next){
+	  var tRemoval = req.flash("t_removal")[0];
+     if(req.user.email == '78127625' ){
+		
+	    Ticket.find(function(err, tickets){		
+			if (err){
+					 return res.write('Error: '+ "Could not find tickets");
+			} else {
+				return res.render('tickets', {layout: "dash.handlebars", admin: "ADMIN", tickets: tickets, tRemoval: tRemoval});
 			}
+		});
+	 }	
+});
+
+router.get('/view-ticket', isLoggedIn, function(req, res, next){
+	var tUpdate = req.flash("t_update")[0];
+     Ticket.findById(ticketId, function(err, ticket){
+		if(err){
+			console.log("Error finding ticket Info", err.message);
+		}
+		if(!ticket){
+			console.log("ticket unavailable");
+			return res.redirect('/');
+		}else { 
+		        Property.findById(ticket.property, function(err, property){
+					 if(err){
+						 console.log("Err finding a property: ", err.message);
+					 }else {
+						     User.findById(property.user, function(err, user){
+								 if(err){
+									 console.log("Could not find user: ", err.message);
+								 }else {
+									 
+									 return res.render("ticket_info",{csrfToken: req.csrfToken(), layout: "dash.handlebars", ticket:ticket, property:property, user:user, tUpdate: tUpdate});
+								 } 
+							 })
+						     
+					 }
+				})
+			   	
 		}
 	});
-		
+});
+
+router.post('/update-ticket', isLoggedIn, function(req, res, next){
+	var localTime = new Date();
+	 Ticket.findByIdAndUpdate(ticketId, {
+		 clientName: req.body.clientname,
+		 clientSurname: req.body.clientsurname,
+		 clientCell: req.body.clientcell,
+		 createdAt: localTime.toLocaleString() 
+		}, function(err, docs) {
+			 
+		if (err){
+			console.log("Error updating ticket: ", err.message)
+		}
+		else{
+			console.log("Ticket Updated:");
+			req.flash("t_update", "Ticket updated");
+			res.redirect('/view-ticket');
+		}
+    });
 });
 
 
-router.get('/close-order/:id', isLoggedIn, function(req, res, next){
-	 var orderId = req.params.id;
-	 Order.findOneAndUpdate({_id: orderId}, {statusCss: "label", status:"Closed"}, {new: false}, function(err, update){
-		 if(err){
-			 console.log("Update failed", err.message);
-		 }else{
-			 console.log("Order has been closed.");
-			 return res.redirect('/dashboard');
-		 }
-	 });
+router.get('/remove-ticket', isLoggedIn, function(req, res, next){ 
+	Ticket.findById(ticketId, function(err, ticket){
+		if(err){
+			console.log("Could not remove ticket! ",err.message);
+		}else {
+			console.log("TICKET ID: ", ticket._id);
+			Property.findById(ticket.property, function(err, property){
+			if (err){
+				console.log("Could'nt find Property: ", err.message);
+			}else {
+				Property.findOneAndUpdate({_id: ticket.property}, {availableRooms: property.availableRooms-1}, {new: false}, function(err, property){
+					if(err){
+							console.log("Update failed", err.message);
+						}else{
+							 console.log("Update successfull");
+							 
+							 Ticket.remove({_id: ticketId}, function(err, ticket){
+								 if(err){
+									 console.log("Could'nt locate ticket: ", err.message);
+								 }else {
+									  console.log("Ticket removed successfully:");
+									  req.flash("t_Removal", "Ticket updated");
+									  return res.redirect('/all-tickets');
+								 }
+							 })
+							
+					}
+				})
+			}
+		 });	
+		}
+	});
 });
+
+
+
 
 
 
@@ -424,7 +567,7 @@ router.get('/remove/:id', function(req, res, next){
 
 
 router.get('/signup', isLoggedIn, function(req, res, next){
-	 if(req.user.email == 'zwelidumsani@gmail.com'){
+	 if(req.user.email == '78127625'){
 		 var messages = req.flash('error');
          res.render('signup', {csrfToken: req.csrfToken(),messages: messages, hasErrors: messages.length > 0});
 	 } else {
@@ -460,7 +603,7 @@ router.post('/signin',passport.authenticate('local', {
 	 failureRedirect:'/signin',
 	 failureFlash: true
     }), function(req, res, next){
-		if(req.user.email == 'zwelidumsani@gmail.com'){
+		if(req.user.email == '78127625'){
 			 req.session.signupButton = 1;
 			 console.log(req.session.signupButton); 
 	    }

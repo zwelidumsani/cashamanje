@@ -1,45 +1,21 @@
- <div class="page-head"> 
-     <div class="container">
-         <div class="row">
-            <div class="page-head-content">
-                 <h1 class="page-title">My Acount</h1>               
-            </div>
-        </div>
-     </div>
-</div>    
+<!--dashboard start-->
+<div class = "col-md-9 col-sm-12 col-xm-12" style = "margin-top:28px;">
 
-
-
-<div class="container">
-     <div class = "row">
-	<!--dashboard start-->
-		<div class = "col-md-3 col-sm-12">
-			<br>
-			<div class = "thumbnail text-center">
-				<br>
-				<span class= "text-left label label-success">Mode:{{admin}}</span>
-				<br>
-				<br>
-					
-				<img src = "assets/img/user.png" alt = "" class = "img-circle" style= "width: 130px; height: auto; border: 5px solid #F4F7F9; margin-bottom:6px;">
-				<ul class="list-group list-group-flush">
-				  <li class="list-group-item"><i class = "pe-7s-culture"><a href = "/List-properties"></i> Properties</li>
-				  <li class="list-group-item">A second item</li>
-				  <li class="list-group-item">A third item</li>
-				  <li class="list-group-item">A fourth item</li>
-				  <li class="list-group-item">And a fifth one</li>
-				</ul>
-			</div>	
-		</div>
-	
-		 <div class = "col-md-9 col-sm-12 col-xm-12" style = "margin-top:28px;">
+             {{#if proRemoval}}
+			     <div class = "alert alert-success" alert-dismissable style = "border-radius:4px;"> 
+				     
+					     <p><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
+				         <i class= "lnr lnr-success"></i> Property removed successfully</p>
+					 
+				 </div> 
+			 {{/if}}
+{{#if user}}
 		    {{#each properties}}
 			     <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12">
-                                <a href="/get-id/{{this.propertyId}}" ><img src="{{this.propertyImagePath}}"></a>
+                                <img src="{{this.propertyImagePath}}">
                                 <div class="item-entry overflow"> 
-                                    <h5><a href="property-1.html" >{{this.propertyStructure}}<span class = "pull-right"></span></a>
+                                    <h5>{{this.propertyStructure}}<span class = "pull-right"><span class="badge badge-secondary">{{this.availableRooms}}</span></span>
 									
-									 <a href = "/get-property-id/{{this.propertyId}}" type="label" class="label {{this.status}} pull-right"><i class = "pe-7s-check"></i> {{this.publication}}</a>
 								
 									 </h5>
 									
@@ -50,7 +26,27 @@
 									
                                 </div>
                  </div>	
-             {{/each}}				 
+             {{/each}}
+{{else}}
+		{{#each properties}}
+			     <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12">
+                                <a href="/dashboard-get-property-id/{{this._id}}" ><img src="{{this.propertyImagePath}}"></a>
+                                <div class="item-entry overflow"> 
+                                    <h5><a href="/dashboard-get-property-id/{{this._id}}" >{{this.propertyStructure}}<span class = "pull-right"></span></a>
+									
+									 <a href = "/dashboard-get-property-id/{{this._id}}" type="label" class="label {{this.myClass}} pull-right"><i class = "pe-7s-check"></i> {{this.status}}</a>
+								
+									 </h5>
+									
+                                    <div class="dot-hr"></div>
+                                    <span class="pull-left"><b>Area :</b> {{this.communityName}} </span>
+                                    <span class="proerty-price pull-right">E {{this.price}}</span>
+									
+									
+                                </div>
+                 </div>	
+             {{/each}}	
+{{/if}}			 
 		</div>
      </div>        
 </div>	  

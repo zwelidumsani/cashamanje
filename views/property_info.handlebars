@@ -1,0 +1,123 @@
+
+ <div class="col-md-9 col-sm-12 col-xm-12"> 
+                          {{#if proUpdate}}
+								 <div class = "alert alert-success" alert-dismissable style = "border-radius:4px; margin-top: 30px;"> 
+									 
+										 <p><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
+										 <i class= "lnr lnr-success"></i> Property updated successfully</p>
+									 
+								 </div> 
+							 {{/if}}
+					     <div class="box-for overflow thumbnail" style = "box-shadow: 0 0 3px black; margin-top: 30px;">
+						
+                            <img src="{{property.propertyImagePath}}" style = "margin-top: 12px;">
+							   
+						   <form action = "/property-update" role="form" method = "post" style = "padding:20px;">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="firstname">Property Name</label>
+                                            <input type="text" name = "propertyname" value = "{{property.propertyName}}" class="form-control" id="firstname" required>
+                                        </div>
+										<div class="form-group">
+                                            <label for="email">Property Structure</label>
+											<div class="pull-right"><small> {{property.propertyStructure}}</small></div>
+										<select id="lunchBegins" class="form-control" value = "{{property.propertyStructure}}" data-live-search="false" name = "propertystructure" title="Property structure" required>
+                                            <option>{{property.propertyStructure}}</option>
+											<option>----------</option>
+											<option>1 rooms</option>
+											<option>Bed seaters</option>
+											<option>1 bedrooms</option>
+											<option>2 bedrooms</option>
+                                        </select>
+										
+                                        </div>
+										<div class="form-group">
+                                            <label for="email">Community name</label>
+                                            <input type="text" name = "communityname" value = "{{property.communityName}}"class="form-control" id="email" required>
+                                        </div>
+										<div class="form-group">
+                                        <label for="email">Region</label>
+										<div class="pull-right"><small> {{property.region}}</small></div>
+										     <select id="lunchBegins" class="form-control" data-live-search="false" value = "{{property.region}}" name = "region" title="Region" required>
+												<option>{{property.region}}</option>
+												<option>----------</option>
+												<option>Hhohho</option>
+												 <option>Manzini</option>
+												 <option>Shiselweni</option>
+												 <option>Lubombo</option>
+											</select>
+                                        </div>
+										<div class="form-group">
+                                            <label for="email">CSS Class</label>
+											<div class="pull-right"><small> {{property.myClass}}</small></div>
+											 <select id="lunchBegins" class="form-control" value = "{{property.myClass}}" data-live-search="false" name = "myclass" title="Property structure" required>
+                                                     <option>{{property.myClass}}</option>
+													 <option>----------</option>
+													 <option>label-danger</option>
+													 <option>label-success</option>
+											 </select>
+                                        </div>
+										<div class="form-group">
+                                            <label for="email">Image</label>
+                                             <input class="form-control" type="file" value = "" id="property-images" name = "propertyimage">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="email">Agent</label>
+                                            <input type="text" name = "username" value = "{{user.email}}" class="form-control" id="email" disabled>
+                                        </div>
+										<div class="form-group">
+                                            <label for="email">City name</label>
+                                            <input type="text" name = "cityname" value = "{{property.cityName}}"class="form-control" id="email" required>
+                                        </div>
+										<div class="form-group">
+                                            <label for="email">Price</label>
+                                            <input type="text" name = "price" value = "{{property.price}}"class="form-control" id="email" required>
+                                        </div>
+										<div class="form-group">
+                                            <label for="email">Available rooms</label>
+                                            <input type="text" name = "availablerooms" value = "{{property.availableRooms}}"class="form-control" id="email" required>
+                                        </div>
+										<div class="form-group">
+                                            <label for="email">Status</label>
+											<div class="label {{property.myClass}} pull-right"><i class = "pe-7s-check"></i> {{property.status}}</div>
+											    <select id="lunchBegins" class="form-control" value = "{{property.status}}" data-live-search="false" name = "status" title="Property structure" required>
+													<option>{{property.status}}</option>
+													<option>----------</option>
+													<option>Pending...</option>
+													<option>Approved</option>
+												</select>
+									  </div>
+										<div class="form-group">
+                                            <label for="email">Created at</label>
+                                            <input type="text" name = "date" value = "{{property.createdAt}}" class="form-control" id="email" required>
+                                        </div>
+										
+									</div>
+									
+									<div class="col-sm-6">
+										<div class="form-group">
+												<button type="submit" class="btn btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i> Update</button>
+										 </div>
+									</div>
+										
+									<div class="col-sm-6">
+										<div class="form-group">
+												 <a href = "/remove-property"  type="button" class="btn btn-primary"><i class="fa fa-trash" aria-hidden="true"></i> Delete  </a>
+										</div>
+								     </div>
+									<input type = "hidden" name = "_csrf" value = "{{csrfToken}}">
+									<input type = "hidden" name = "propertyid" value = "{{property._id}}">
+								
+                                </div>
+                                <!-- /.row -->
+                            </form>
+                       </div>
+
+ </div>
+
+</div>
+</div>
+					

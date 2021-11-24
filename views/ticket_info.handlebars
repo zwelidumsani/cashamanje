@@ -1,0 +1,100 @@
+   
+                    <div class="box-for overflow thumbnail" style = "margin-top: 20px;">                         
+                        <div class="col-md-12 col-xs-12 login-blocks">
+						
+				{{#if t}} 
+					 <div class = "alert alert-danger" alert-dismissable style = "border-radius:4px;>
+					     <p class= "pull-right"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
+					     <i class = "lnr lnr-checkmark-circle"></i>  Error!</p>
+					 </div>	
+			     {{/if}}
+			   
+				 {{#if tUpdate}} 
+				     <div class = "alert alert-success" alert-dismissable style = "border-radius:4px;>
+						 <p class= "pull-right"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
+						 <i class = "lnr lnr-cross-circle"></i> Ticket updated successfully.</p>
+					 </div>	
+				 {{/if}}
+                            <form action="/update-ticket" method="post" style = "margin-top: 10px;" >
+							    <div class="row">
+                                <div class="col-sm-6">
+								 <label for="property-images">Client name</label>
+									<div class="form-group">
+										<input type="text" class="form-control" name = "clientname" id="propertyname" value = "{{ticket.clientName}}" required>
+									</div>
+									
+									<label for="property-images">Client surname</label>
+									<div class="form-group">
+										<input type="Text" class="form-control" name = "clientsurname" id="password" value = "{{ticket.clientSurname}}" required>
+									</div>
+									
+									<label for="property-images">Client cell#</label>
+									<div class="form-group">
+										<input type="text" class="form-control" name = "clientcell" id="password" value = "{{ticket.clientCell}}" required>
+									</div>
+									
+									<label for="property-images">Time update</label>
+									<div class="form-group">
+										<input type="text" class="form-control" name = "time" id="password" value = "{{ticket.createdAt}}" disabled>
+									</div>
+									<label for="property-images">Agent</label>
+									<div class="form-group">
+										<input type="text" class="form-control" name = "phonenumber" id="password" value = "{{user.email}}" disabled>
+									</div>
+								</div>
+								
+								<div class="col-sm-6">
+								   <label for="property-images">Propety name</label>
+									<div class="form-group">
+										<input type="text" class="form-control" name = "name" id="propertyname" value = "{{property.propertyName}}" required>
+									</div>
+									
+									<label for="property-images">Property structure</label>
+									<div class="form-group">
+										<input type="Text" class="form-control" name = "surname" id="password" value = "{{property.propertyStructure}}" required>
+									</div>
+									
+									<label for="property-images">Available rooms</label>
+									<div class="form-group">
+										<input type="text" class="form-control" name = "phonenumber" id="password" value = "{{property.availableRooms}}" required>
+									</div>
+									
+									<label for="property-images">Community</label>
+									<div class="form-group">
+										<input type="text" class="form-control" name = "phonenumber" id="password" value = "{{property.communityName}}" disabled>
+									</div>
+									
+									<label for="property-images">Mastand's #</label>
+									<div class="form-group">
+										<input type="text" class="form-control" name = "phonenumber" id="password" value = "{{property.landlordCell}}" disabled>
+									</div>
+								</div>
+									 <div class="col-sm-6">
+									     <div class="form-group">
+									         <button type="submit" class="btn btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i> Update</button>	 
+									     </div>
+										  <div class="form-group">
+									         <a href = "/"  type="button" class="btn btn-primary"><i class="fa fa-trash" aria-hidden="true"></i> Home</a>					
+									     </div>
+									</div>
+									
+									 <div class="col-sm-6">
+										 <div class="form-group">
+										     <a href = "/remove-ticket"  type="button" class="btn btn-primary"><i class="fa fa-trash" aria-hidden="true"></i> Remove  </a>					
+										 </div>
+										 <div class="form-group">
+										     <a href = "/paid"  type="button" class="btn btn-primary"><i class="fa fa-credit-card" aria-hidden="true"></i> Paid  </a>
+										 </div>
+									</div>
+							         <input type = "hidden" name = "_csrf" value = "{{csrfToken}}">
+                                 
+                                   
+                               
+								</div>
+                            </form>
+                            <hr>
+                        </div>
+                    </div>
+          
+            </div>
+        </div> 

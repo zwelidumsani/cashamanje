@@ -12,7 +12,7 @@ var schema = new Schema({
 	 region: {type: String, required: true, trim: true},
 	 landlordCell:{type: String, required: true, trim: true},
 	 availableRooms:{type: String, required: true, trim: true},
-	 publication:{type: String, required: true, trim: true},
+	 myClass:{type: String, required: true, trim: true},
 	 status: {type: String, required: true, trim: true},
 	 createdAt:{type: String, required: true, trim: true}
 });

@@ -76,10 +76,10 @@
 				{{#if ifSearchedProperties}}
 				     {{#each yourProperties}}
                          <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12">
-                                <a href="/get-id/{{this.propertyId}}" ><img src="{{this.propertyImagePath}}"></a>
+                                <img src="{{this.propertyImagePath}}">
                                 <div class="item-entry overflow"> 
-                                    <h5><a href="property-1.html" >{{this.propertyStructure}}<span class = "pull-right">Available <span class="badge badge-secondary">{{this.availableRooms}}</span></span></a></h5>
-									<a href = "/get-property-id/{{this.propertyId}}" type="button" class="btn btn-primary pull-right">Take It!</a>
+                                    <h5>{{this.propertyStructure}}<span class = "pull-right">Available <span class="badge badge-secondary">{{this.availableRooms}}</span></span></h5>
+									<a href = "/get-property-id/{{this._id}}" type="button" class="btn btn-primary pull-right">Take It!</a>
                                     <div class="dot-hr"></div>
                                     <span class="pull-left"><b>Area :</b> {{this.communityName}} </span>
                                     <span class="proerty-price pull-right">E {{this.price}}</span>
@@ -90,9 +90,9 @@
 				
 					{{#each properties}}
                          <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12">
-                                <a href="/get-id/{{this.propertyId}}" ><img src="{{this.propertyImagePath}}"></a>
+                                <img src="{{this.propertyImagePath}}">
                                 <div class="item-entry overflow"> 
-                                    <h5><a href="property-1.html" >{{this.propertyStructure}}<span class = "pull-right">Available <span class="badge badge-secondary">{{this.availableRooms}}</span></span></a></h5>
+                                    <h5>{{this.propertyStructure}}<span class = "pull-right">Available <span class="badge badge-secondary">{{this.availableRooms}}</span></span></h5>
 									<a href = "/get-property-id/{{this.propertyId}}" type="button" class="btn btn-primary pull-right">Take It!</a>
                                     <div class="dot-hr"></div>
                                     <span class="pull-left"><b>Area :</b> {{this.communityName}} </span>
@@ -116,7 +116,7 @@
                                 <div class="row">
                                     <div class="col-md-10 col-md-offset-1 col-sm-12 text-center page-title">
                                         <!-- /.feature title -->
-                                        <h2>GARO ESTATE </h2>
+                                        <h2>MAST TAND </h2>
                                     </div>
                                 </div>
                             </div>

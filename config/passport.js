@@ -20,10 +20,6 @@ passport.use('strategy', new localStrategy({
 	passReqToCallback: true
 },function(req, username, password, done){
 	
-	 if (req.user){
-		return done(null, false, {message:'You are still logged in'});
-	}
-	
 	if(req.body.password != req.body.passwordTwo){
 		return done(null, false, {message:'Passwords do not Match'});
 	}

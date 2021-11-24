@@ -6,6 +6,7 @@ var schema = new Schema({
 	 clientName: {type: String, required: true, trim: true},
 	 clientSurname: {type: String, required: true, trim: true},
 	 clientCell: {type: String, required: true, trim: true}, 
+	 myClass: {type: String, required: true, trim: true}, 
      status: {type: String, required: true, trim: true},
 	 createdAt: {type: String, required: true, trim: true}  	
 });

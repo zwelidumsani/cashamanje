@@ -286,8 +286,9 @@ input[type="search"]::-webkit-search-decoration {
     background-color: #FDC600;
     border-color: #FDC600;
     border-radius: 1px;
-    padding: 10px 20px;
+    padding: 10px 30px;
     font-weight: 600;
+	
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active,.btn-primary:active:focus, .open > .dropdown-toggle.btn-primary {
     color: #FDC600;
