@@ -287,13 +287,13 @@ router.post('/ticket', function(req, res, next){
 
 
 //DASHBOARD START =====================================================================================================
-router.get('/user-properties', paginatedUserResults(Property),  function(req, res, next){
+router.get('/user-properties', isLoggedIn, paginatedUserResults(Property),  function(req, res, next){
 	  user = 1;
       res.render('dashboard', {layout: "dash.handlebars", admin: "USER", properties: res.paginatedResults, user:user});
 })
 
 
-router.get('/all-properties', paginatedResults(Property),  function(req, res, next){
+router.get('/all-properties', isLoggedIn, paginatedResults(Property),  function(req, res, next){
 	var proRemoval = req.flash("pro_removal")[0];
 	var user;
 	if(req.user.email == '78127625' ){
@@ -460,6 +460,8 @@ router.get('/view-ticket', isLoggedIn, function(req, res, next){
 		}
 	});
 });
+
+
 
 router.post('/update-ticket', isLoggedIn, function(req, res, next){
 	var localTime = new Date();
