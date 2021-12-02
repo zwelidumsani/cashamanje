@@ -2,17 +2,17 @@
             <div class="slider">
                 <div id="bg-slider" class="owl-carousel owl-theme">
 
-                    <div class="item"><img src="assets/img/slide1/favela.jpg" alt="GTA V"></div>
-                    <div class="item"><img src="assets/img/slide1/favela.jpg" alt="The Last of us"></div>
-                    <div class="item"><img src="assets/img/slide1/favela.jpg" alt="GTA V"></div>
+                    <div class="item"><img src="assets/img/slide1/room.jpg" alt="GTA V"></div>
+                    <div class="item"><img src="assets/img/slide1/room.jpg" alt="The Last of us"></div>
+                    <div class="item"><img src="assets/img/slide1/room.jpg" alt="GTA V"></div>
 
                 </div>
             </div>
             <div class="slider-content">
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
-                        <h2><span style="font-weight:600">PROPERTY SEARCHING JUST GOT SO EASY</span></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi deserunt deleniti, ullam commodi sit ipsam laboriosam velit adipisci quibusdam aliquam teneturo!</p>
+                        <h2><span style="font-weight:600">monthly rooms for rent in Eswatini</span></h2>
+                        <p style = "font-size:15px">Yes! You don’t necessarily have to sign a long lease to rent a room. There are many apartment buildings, co-living spaces and even hotels with rooms available on a month-to-month basis. Let’s take a deeper look at the different types of rooms you can rent in almost any major city.</p>
                        <div class="row">
                     <div class="">
 					   <div class="search-form wow pulse" data-wow-delay="0.8s">
@@ -29,21 +29,17 @@
 								
 								 <div class="form-group">                                   
                                     <select id="lunchBegins" class="selectpicker" name = "cityname" data-live-search="false" title="Select city">
-                                 
-									 if{{#each properties}}
+									 if{{#each properties.results}}
                                        <option>{{this.cityName}}</option>
 									 {{/each}} 
-									
-									 
-                                      
                                     </select>
                                 </div>
 								
 										 <div class="form-group">                                   
                                     <select id="lunchBegins" class="selectpicker" name = "communityname" data-live-search="false" title="Select area">
 
-                                         {{#each properties}}
-                                             <option>{{this.town}}</option>
+                                         {{#each properties.results}}
+                                             <option>{{this.communityName}}</option>
 									    {{/each}}
                                     
                                     </select>
@@ -67,16 +63,18 @@
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1 col-sm-12 text-center page-title">
                         <!-- /.feature title -->
-                        <h2>Top submitted property</h2>
-                        <p>Nulla quis dapibus nisl. Suspendisse ultricies commodo arcu nec pretium. Nullam sed arcu ultricies . </p>
+                        <h2>Top submitted rooms for rent </h2>
+                        <p>Tfola lokhe luhlobo lwetindlu tekucashisa letivulekile malula nje! Sinema:  <strong>1 rooms</strong>, <strong>bed sitters</strong>, <strong>2 bed rooms</strong>, na <strong>2 bedrooms</strong>. </p>
+						   
                     </div>
                 </div>
 
                 <div class="row">
-				{{#if ifSearchedProperties}}
-				     {{#each yourProperties}}
-                         <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12">
-                                <img src="{{this.propertyImagePath}}">
+				
+				{{#if searchProperties}}
+				     {{#each properties.results}}
+                         <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12" style = "margin-bottom: 20px;">
+                               <a href = "/get-id/{{this._id}}"> <img src="{{this.propertyImagePath}}"></a>
                                 <div class="item-entry overflow"> 
                                     <h5>{{this.propertyStructure}}<span class = "pull-right">Available <span class="badge badge-secondary">{{this.availableRooms}}</span></span></h5>
 									<a href = "/get-property-id/{{this._id}}" type="button" class="btn btn-primary pull-right">Take It!</a>
@@ -86,22 +84,37 @@
                                 </div>
                          </div>
 					{{/each}}	
+					
 				{{else}}
 				
-					{{#each properties}}
-                         <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12">
-                                <img src="{{this.propertyImagePath}}">
+					{{#each properties.results}}
+                         <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12" style = "margin-bottom: 20px;">
+                               <a href = "/get-id/{{this._id}}">  <img src="{{this.propertyImagePath}}"></a>
                                 <div class="item-entry overflow"> 
                                     <h5>{{this.propertyStructure}}<span class = "pull-right">Available <span class="badge badge-secondary">{{this.availableRooms}}</span></span></h5>
-									<a href = "/get-property-id/{{this.propertyId}}" type="button" class="btn btn-primary pull-right">Take It!</a>
+									<a href = "/get-property-id/{{this._id}}" type="button" class="btn btn-primary pull-right">Take It!</a>
                                     <div class="dot-hr"></div>
                                     <span class="pull-left"><b>Area :</b> {{this.communityName}} </span>
                                     <span class="proerty-price pull-right">E {{this.price}}</span>
                                 </div>
                          </div>
+						
 					{{/each}}	
 				 {{/if}}	
                  </div>
+				<div class="col-md-12"> 
+                        <div class="pull-right">
+                            <div class="pagination">
+                                <ul>
+								     <li><a href="/"><i class = "fa fa-home"></i> Back Home</a></li>
+                                    <li><a href="/?page=1">1</a></li>
+                                    <li><a href="/?page=2">2</a></li>
+                                    <li><a href="/?page=3">3</a></li>
+                                    <li><a href="/?page=4">4</a></li>
+                                </ul>
+                            </div>
+                        </div>                
+             </div>
                 </div>
             </div>
          </div>
@@ -232,28 +245,27 @@
                 </div>
             </div>
         </div>
-		
-{{#if ifSearchedProperties}}
 
-{{else}}
+
+
 		<div class = "container">
 		    <div class = "row">
 			   <div class="row">
                     <div class="col-md-10 col-md-offset-1 col-sm-12 text-center page-title">
                         <!-- /.feature title -->
-                        <h2>All availble Property</h2> 
+                        <h2>All available Rooms</h2> 
                     </div>
                 </div>
                         <div class="similar-post-section padding-top-40" style = "margin-bottom: 55px;"> 
                             <div id="prop-smlr-slide_0"> 
-							{{#each properties}}
+							{{#each properties.results}}
                                 <div class="box-two proerty-item ">
                                     <div class="item-thumb ">
-                                        <a href="/get-id/{{this.propertyId}}" ><img src="{{this.propertyImagePath}}"></a>
+                                        <a href="/get-id/{{this._id}}" ><img src="{{this.propertyImagePath}}"></a>
                                     </div>
                                     <div class="item-entry overflow">
                                         <h5><a href="property-1.html"> {{this.propertyStructure}}<span class = "pull-right">Available <span class="badge badge-secondary">{{this.availableRooms}}</span></span> </a></h5>
-										<a href = "/get-property-id/{{this.propertyId}}" type="button" class="btn btn-primary pull-right">Take It!</a>
+										<a href = "/get-property-id/{{this._id}}" type="button" class="btn btn-primary pull-right">Take It!</a>
                                         <div class="dot-hr"></div>
                                         <span class="pull-left"><b> Area :</b>{{this.communityName}}  </span>
                                         <span class="proerty-price pull-right">E {{this.price}}</span> 
@@ -264,6 +276,6 @@
                         </div>	
 		     </div>
           </div>
-	{{/if}}	
+
 		
 		

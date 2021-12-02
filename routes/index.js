@@ -18,13 +18,22 @@ var propertyId;
 var searchedProperties = [];
 var ticket;
 var ticketId;
-
-
+var user;
+var searchProperties;
 
 
 const accountSid = 'AC3c506767f08d7269912cf174bce0b68d'; 
 const authToken = '896a17370c28d4a7c7472ea01d119b6f'; 
 const client = require('twilio')(accountSid, authToken);
+
+
+const options = {
+  page: 1,
+  limit: 2,
+  collation: {
+    locale: 'en',
+  },
+};
 
 //Multer storage
 const storage = multer.diskStorage({
@@ -89,9 +98,40 @@ router.post('/submit', isLoggedIn, function(req, res){
 		 });	   	
 });
 
+router.get('/', paginatedApprovedResults(Property),  function(req, res, next){
+	 if (searchProperties){
+		      var properties = req.session.imiphumela;
+			  searchProperties = null;
+			  req.session.imiphumela = null;
+		      return res.render("index", {csrfToken: req.csrfToken(), properties: properties});
+	 }else {
+	          return res.render("index", {csrfToken: req.csrfToken(), properties: res.paginatedResults});
+	 }
+});
+
+
+
+router.get('/get-id/:id', function (req, res, next){
+	  proId = req.params.id;
+	  res.redirect('/property-details');
+})
+
+
+router.get('/property-details', (req, res, next) => {
+	propertyId = null;
+	Property.findById(proId, function(err, property){
+		if(err){console.log("Error finding property Info", err.message);}
+		if(!property){
+			console.log("Property unavailable");
+			return res.redirect('/');
+		}else { 
+			 return res.render("property", {property: property});
+		}
+	});	
+});
     
 
-router.get('/', (req, res) => {
+/*router.get('/', (req, res) => {
 	 var ifSearchedProperties;
 	
 	 propertyId = null;
@@ -141,8 +181,18 @@ router.get('/', (req, res) => {
 		})
 	 }
 });
+*/
 
 
+
+router.post('/search-properties', paginatedSearchedResults(Property),  function(req, res, next){
+	  searchProperties = 1;
+	  req.session.imiphumela = res.paginatedResults; 
+	  res.redirect('/');
+});
+
+
+/*	
 router.post('/search-properties', (req, res) => {
 	if(req.body.region == "" || req.body.cityname == "" || req.body.communityname == ""){
 		return res.redirect("/");
@@ -172,7 +222,7 @@ router.post('/search-properties', (req, res) => {
 	  });	
 });
 
-
+*/
 router.get('/logout', isLoggedIn, function(req, res, next){
 		req.logout();
 		req.session.signupButton = null;
@@ -235,43 +285,21 @@ router.post('/ticket', function(req, res, next){
 });
 
 
-router.get('/property-details', (req, res) => {
-	propertyId = null;
-	Property.findById(proId, function(err, property){
-		if(err){console.log("Error finding property Info", err.message);}
-		if(!property){
-			console.log("Property unavailable");
-			return res.redirect('/');
-		}else { 
-			 return res.render("property", {property: property});
-		}
-	});	
-});
-
 
 //DASHBOARD START =====================================================================================================
+router.get('/user-properties', paginatedUserResults(Property),  function(req, res, next){
+	  user = 1;
+      res.render('dashboard', {layout: "dash.handlebars", admin: "USER", properties: res.paginatedResults, user:user});
+})
 
-router.get('/all-properties', isLoggedIn, function(req, res, next){
+
+router.get('/all-properties', paginatedResults(Property),  function(req, res, next){
 	var proRemoval = req.flash("pro_removal")[0];
 	var user;
 	if(req.user.email == '78127625' ){
-		
-	    Property.find(function(err, properties){		
-			if (err){
-					 return res.write('Error: '+ "Could not find properties");
-			} else {
-				return res.render('dashboard', {layout: "dash.handlebars", admin: "ADMIN", properties:properties, proRemoval: proRemoval});
-			}
-		});
+		 return res.render('dashboard', {layout: "dash.handlebars", admin: "ADMIN", properties: res.paginatedResults, proRemoval: proRemoval});
 	}else {
-		Property.find({user: req.user}, function(err, properties){
-			 if (err){
-					 return res.write('Error: '+ "Could not find properties");
-			} else {
-				user = 1;
-				return res.render('dashboard', {layout: "dash.handlebars",admin: "USER", properties:properties, user:user});
-			}
-		});	
+		 res.redirect("/user-properties")
 	}
 });
 
@@ -360,6 +388,7 @@ router.post('/property-update', isLoggedIn, function(req, res, next){
 		}
     });
 });
+
 
 /*if(order.status == "Closed"){
 				 Order.findOneAndRemove()
@@ -617,6 +646,11 @@ router.get('/about', function(req, res){
 		res.render('aboutUs.handlebars');
 });
 
+router.get('/properties', paginatedResults(Property), function(req, res, next){
+	console.log(res.paginatedResults);
+	 res.json(res.paginatedResults);
+})
+
 function isLoggedIn (req, res, next){
    if (req.isAuthenticated()) {
 	   return next();
@@ -632,6 +666,151 @@ function isNotLoggedIn (req, res, next){
    res.redirect('/');
 }
 
+function paginatedResults(model){
+	 return async (req, res, next) => {
+			const page  = parseInt(req.query.page)
+			const limit = 8;
+			
+			const startIndex = (page - 1) * limit;
+			const endIndex = page * limit;
+
+			const results = {}
+
+			if (endIndex < await model.countDocuments().exec()) {
+				results.next = {
+					page: page,
+					limit:limit
+				}
+			}
+
+			if (startIndex > 0) {
+				results.previous = {
+					page: page - 1,
+					limit:limit
+				}
+			}
+			
+			try {
+				results.results = await model.find().limit(limit).skip(startIndex).exec()
+				res.paginatedResults = results
+				next()
+				} catch(e) {
+					 res.status(500).json({message: e.message})
+			}	
+	 }
+}
 
 
-module.exports = router;
+
+function paginatedUserResults(model){
+	 return async (req, res, next) => {
+			const page  = parseInt(req.query.page)
+			const limit = 8;
+			
+			const startIndex = (page - 1) * limit;
+			const endIndex = page * limit;
+
+			const results = {}
+
+			if (endIndex < await model.countDocuments().exec()) {
+				results.next = {
+					page: page,
+					limit:limit
+				}
+			}
+
+			if (startIndex > 0) {
+				results.previous = {
+					page: page - 1,
+					limit:limit
+				}
+			}
+			
+			try {
+				results.results = await model.find({user: req.user}).limit(limit).skip(startIndex).exec()
+				res.paginatedResults = results
+				next()
+				} catch(e) {
+					 res.status(500).json({message: e.message})
+			}	
+	 }
+}
+
+
+//===========Approved status==========================================================================
+function paginatedApprovedResults(model){
+	 return async (req, res, next) => {
+			const page  = parseInt(req.query.page)
+			const limit = 8;
+			
+			const startIndex = (page - 1) * limit;
+			const endIndex = page * limit;
+
+			const results = {}
+
+			if (endIndex < await model.countDocuments().exec()) {
+				results.next = {
+					page: page,
+					limit:limit
+				}
+			}
+
+			if (startIndex > 0) {
+				results.previous = {
+					page: page - 1,
+					limit:limit
+				}
+			}
+			
+			try {
+				results.results = await model.find({status: "Approved"}).limit(limit).skip(startIndex).exec()
+				res.paginatedResults = results
+				next()
+				} catch(e) {
+					 res.status(500).json({message: e.message})
+			}	
+	 }
+}
+
+//===========searched properties======================================================
+function paginatedSearchedResults(model){
+	 return async (req, res, next) => {
+			const page  = parseInt(req.query.page)
+			const limit = 8;
+			
+			const startIndex = (page - 1) * limit;
+			const endIndex = page * limit;
+
+			const results = {}
+
+			if (endIndex < await model.countDocuments().exec()) {
+				results.next = {
+					page: page,
+					limit:limit
+				}
+			}
+
+			if (startIndex > 0) {
+				results.previous = {
+					page: page - 1,
+					limit:limit
+				}
+			}
+			
+			try {
+				if(req.body.region == "" || req.body.cityname == "" || req.body.communityname == ""){
+		              return res.redirect("/");
+	            }
+				results.results = await model.find({status:"Approved",region: req.body.region, cityName: req.body.cityname, communityName: req.body.communityname}).limit(limit).skip(startIndex).exec()
+				res.paginatedResults = results
+				next()
+				} catch(e) {
+					 res.status(500).json({message: e.message})
+			}	
+	 }
+}
+
+	
+	  
+
+module.exports = router;  

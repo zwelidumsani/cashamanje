@@ -10,7 +10,7 @@
 				 </div> 
 			 {{/if}}
 {{#if user}}
-		    {{#each properties}}
+		    {{#each properties.results}}
 			     <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12">
                                 <img src="{{this.propertyImagePath}}">
                                 <div class="item-entry overflow"> 
@@ -28,7 +28,7 @@
                  </div>	
              {{/each}}
 {{else}}
-		{{#each properties}}
+		{{#each properties.results}}
 			     <div class = "col-lg-4 col-md-4 col-sm-6 col-xm-12 col-xm-12">
                                 <a href="/dashboard-get-property-id/{{this._id}}" ><img src="{{this.propertyImagePath}}"></a>
                                 <div class="item-entry overflow"> 
@@ -46,7 +46,22 @@
                                 </div>
                  </div>	
              {{/each}}	
-{{/if}}			 
+{{/if}}			
+		</div>
+		
+		
+		<div class="col-md-12"> 
+                        <div class="pull-right">
+                            <div class="pagination">
+                                <ul>
+                                    <li><a href="/all-properties?page=1">1</a></li>
+                                    <li><a href="/all-properties?page=2">2</a></li>
+                                    <li><a href="/all-properties?page=3">3</a></li>
+                                    <li><a href="/all-properties?page=4">4</a></li>
+                                </ul>
+                            </div>
+                        </div>                
+             </div>
 		</div>
      </div>        
 </div>	  
