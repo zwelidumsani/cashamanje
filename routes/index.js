@@ -671,7 +671,7 @@ function isNotLoggedIn (req, res, next){
 function paginatedResults(model){
 	 return async (req, res, next) => {
 			const page  = parseInt(req.query.page)
-			const limit = 8;
+			const limit = 9;
 			
 			const startIndex = (page - 1) * limit;
 			const endIndex = page * limit;
@@ -707,7 +707,7 @@ function paginatedResults(model){
 function paginatedUserResults(model){
 	 return async (req, res, next) => {
 			const page  = parseInt(req.query.page)
-			const limit = 8;
+			const limit = 9;
 			
 			const startIndex = (page - 1) * limit;
 			const endIndex = page * limit;
@@ -743,7 +743,7 @@ function paginatedUserResults(model){
 function paginatedApprovedResults(model){
 	 return async (req, res, next) => {
 			const page  = parseInt(req.query.page)
-			const limit = 8;
+			const limit = 9;
 			
 			const startIndex = (page - 1) * limit;
 			const endIndex = page * limit;
@@ -778,7 +778,7 @@ function paginatedApprovedResults(model){
 function paginatedSearchedResults(model){
 	 return async (req, res, next) => {
 			const page  = parseInt(req.query.page)
-			const limit = 8;
+			const limit = 9;
 			
 			const startIndex = (page - 1) * limit;
 			const endIndex = page * limit;
