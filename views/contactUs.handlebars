@@ -59,41 +59,40 @@
 			     {{/if}}
 			   
 				 {{#if emailError}} 
-				     <div class = "alert alert-danger" alert-dismissable style = "border-radius:4px;>
-						 <p class= "pull-right"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
-						 <i class = "lnr lnr-cross-circle"></i>  Could not send email.</p>
-					 </div>	
+						 <div class = "alert alert-danger" alert-dismissable style = "border-radius:4px;>
+							 <p class= "pull-right"><button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true"><i class = "lnr lnr-cross-circle"></i></button>
+							 <i class = "lnr lnr-cross-circle"></i>  Could not send email.</p>
+						 </div>	
 				 {{/if}}
-							 <div class="box-for overflow thumbnail" style = "box-shadow: 0 0 7px black; margin-top: 20px;">
-			
-                            <form action = "/email" role="form" method = "post" style = "padding:20px;">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="firstname">Your name</label>
-                                            <input type="text" name = "name" class="form-control" id="firstname" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="email">Email</label>
-                                            <input type="email" name = "email" class="form-control" id="email" required>
-                                        </div>
-                                    </div>
-                                  
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label for="message">Message</label>
-                                            <textarea id="message" rows = "6" class="form-control" name = "message" required></textarea>
-                                        </div>
-                                    </div>
-									<input type = "hidden" name = "_csrf" value = "{{csrfToken}}">
-                                    <div class="col-sm-12 text-center">
-                                        <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send message</button>
-                                    </div>
-                                </div>
-                                <!-- /.row -->
-                            </form>
+							<div class="box-for overflow thumbnail" style = "box-shadow: 0 0 0px black; margin-top: 0px;">
+								<form action = "/email" role="form" method = "post" style = "padding:20px;">
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="firstname">Your name</label>
+												<input type="text" name = "name" class="form-control" id="firstname" required>
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="email">Email</label>
+												<input type="email" name = "email" class="form-control" id="email" required>
+											</div>
+										</div>
+									  
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label for="message">Message</label>
+												<textarea id="message" rows = "6" class="form-control" name = "message" required></textarea>
+											</div>
+										</div>
+										<input type = "hidden" name = "_csrf" value = "{{csrfToken}}">
+										<div class="col-sm-12 text-center">
+											<button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send message</button>
+										</div>
+									</div>
+									<!-- /.row -->
+								</form>
 							</div>
                         </div>
                     </div>    
